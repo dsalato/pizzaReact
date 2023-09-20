@@ -1,20 +1,24 @@
 import React from 'react';
 
-class Categories extends React.Component {
-    render() {
-        return (
+function Categories(){
+    const[category, chooseCategory] = React.useState(3);
+    const categories = ['Все','Мясные', 'Вегетарианская', 'Гриль', 'Острые', 'Закрытые'];
+
+
+    return (
             <div className="categories">
                 <ul>
-                    <li className="active">Все</li>
-                    <li>Мясные</li>
-                    <li>Вегетарианская</li>
-                    <li>Гриль</li>
-                    <li>Острые</li>
-                    <li>Закрытые</li>
+                    { categories.map((el,key) => {
+                        return(
+                            <li onClick={() => chooseCategory(key)} className={category === key ? 'active' : '' }>{el}</li>
+                        )
+
+
+                    })}
                 </ul>
             </div>
         );
-    }
 }
+
 
 export default Categories;
