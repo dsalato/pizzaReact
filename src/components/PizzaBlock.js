@@ -1,24 +1,30 @@
 import React, {useState} from 'react';
 
-function PizzaBlock({title, price}) {
-    const [countPizza,setCountPizza] = useState(0);
+function PizzaBlock({title, price, imageUrl, sizes, types}) {
+
+        const [size, setSize] = useState(0)
+        const [testo, setTesto] = useState(0)
         return (
             <div className="pizza-block">
                 <img
                     className="pizza-block__image"
-                    src="https://dodopizza-a.akamaihd.net/static/Img/Products/Pizza/ru-RU/b750f576-4a83-48e6-a283-5a8efb68c35d.jpg"
+                    src={imageUrl}
                     alt="Pizza"
                 />
                 <h4 className="pizza-block__title">{ title }</h4>
                 <div className="pizza-block__selector">
                     <ul>
-                        <li className="active">тонкое</li>
-                        <li>традиционное</li>
+                        {types.map((el,key)=>(
+                            <li onClick={()=>{setTesto(key)}} className={testo === key ? "active" : ""}>{el === 1 ? 'Тонкое' : " Традиционное"}</li>
+                        ))}
+
+
                     </ul>
                     <ul>
-                        <li className="active">26 см.</li>
-                        <li>30 см.</li>
-                        <li>40 см.</li>
+                        {sizes.map((el, key)=>(
+                            <li onClick={()=>{setSize(key)}} className={size === key ? "active" : ''}>{el} см.</li>
+                        ))}
+
                     </ul>
                 </div>
                 <div className="pizza-block__bottom">
@@ -36,8 +42,8 @@ function PizzaBlock({title, price}) {
                                 fill="white"
                             />
                         </svg>
-                        <span onClick={()=>setCountPizza(countPizza + 1)}>Добавить</span>
-                        <i>{countPizza}</i>
+                        <span>Добавить</span>
+                        <i>0</i>
                     </div>
                 </div>
             </div>
