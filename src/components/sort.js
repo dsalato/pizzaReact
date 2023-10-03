@@ -1,7 +1,15 @@
-import React from 'react';
+import React, {useState} from 'react';
 
-class Sort extends React.Component {
-    render() {
+function Sort(){
+    const[open,setOpen] = useState(false)
+    const list = ['популярности','цене','алфавиту']
+    const [sort,setSort]=useState(0)
+
+    const closeListSort = (key) => {
+        setOpen(false);
+        setSort(key);
+    }
+
         return (
             <div className="sort">
                 <div className="sort__label">
@@ -18,18 +26,19 @@ class Sort extends React.Component {
                         />
                     </svg>
                     <b>Сортировка по:</b>
-                    <span>популярности</span>
+                    <span onClick={()=>setOpen(!open)}>{list[sort]}</span>
                 </div>
-                <div className="sort__popup">
+                {open && <div className="sort__popup">
                     <ul>
-                        <li className="active">популярности</li>
-                        <li>цене</li>
-                        <li>алфавиту</li>
+                        {list.map((el,key)=> (
+                            <li key={key} onClick={()=>closeListSort(key)} className={sort === key ? "active" : ""}>{el}</li>
+                        ))}
                     </ul>
-                </div>
+                </div>}
+
             </div>
         );
-    }
+
 }
 
 export default Sort;
