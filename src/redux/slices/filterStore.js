@@ -5,23 +5,25 @@ const initialState = {
     sortId: {
         name: 'популярности',
         sort: 'rating'
-    }
-
+    },
+    currentPage: 1,
 }
 
- const filterSlice = createSlice({
-     name: 'filters',
-     initialState,
-     reducers:{
-         setCategoryId(state, action){
-             state.categoryId = action.payload
-         },
-         setSortId(state, action){
-             state.sortId = action.payload;
-             console.log(state.sortId)
-         }
-     }
+const filterSlice = createSlice({
+    name: 'filters',
+    initialState,
+    reducers: {
+        setCategoryId(state, action) {
+            state.categoryId = action.payload
+        },
+        setSortId(state, action) {
+            state.sortId = action.payload;
+        },
+        setCurrentPage(state, action) {
+            state.currentPage = action.payload;
+        },
+    }
+})
 
- })
-export const {setCategoryId, setSortId} = filterSlice.actions
+export const {setCategoryId, setSortId, setCurrentPage} = filterSlice.actions
 export default filterSlice.reducer
