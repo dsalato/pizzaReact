@@ -2,12 +2,16 @@ import React, {useState} from 'react';
 import {useDispatch, useSelector} from "react-redux";
 import {setSortId} from "../redux/slices/filterStore";
 
-function Sort() {
-    const dispatch = useDispatch()
-    const sortId = useSelector(state => state.filter.sortId)
+export const list = [
+    {name: 'популярности', sort: 'rating'},
+    {name: 'цене', sort: 'price'},
+    {name: 'алфавиту', sort: 'title'},
+]
 
-    const [open, setOpen] = useState(false)
-    const list = [{name:'популярности', sort:'rating'},{name:'цене', sort:'price'},{name:'алфавиту', sort:'title'}]
+export const Sort = React.memo(({value}) => {
+    const dispatch = useDispatch()
+    const sortId = useSelector(state => state.filter.sortId);
+    const [open, setOpen] = useState(false);
 
     const closeListSort = (key) => {
         dispatch(setSortId(key));
@@ -30,12 +34,13 @@ function Sort() {
                     />
                 </svg>
                 <b>Сортировка по:</b>
-                <span onClick={()=>setOpen(!open)}>{sortId.name}</span>
+                <span onClick={() => setOpen(!open)}>{sortId.name}</span>
             </div>
             {open && <div className="sort__popup">
                 <ul>
-                    {list.map((el,key)=> (
-                        <li key={key} onClick={()=> closeListSort(el)} className={sortId.sort === el.sort ? "active" : ""}>{el.name}</li>
+                    {list.map((el, key) => (
+                        <li key={key} onClick={() => closeListSort(el)}
+                            className={sortId.sort === el.sort ? "active" : ""}>{el.name}</li>
                     ))}
                 </ul>
             </div>}
@@ -43,6 +48,6 @@ function Sort() {
         </div>
     );
 
-}
+})
 
 export default Sort;
