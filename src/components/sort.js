@@ -12,14 +12,30 @@ export const Sort = React.memo(({value}) => {
     const dispatch = useDispatch()
     const sortId = useSelector(state => state.filter.sortId);
     const [open, setOpen] = useState(false);
+    const sortRef = React.useRef();
 
     const closeListSort = (key) => {
         dispatch(setSortId(key));
         setOpen(false);
     }
 
+    React.useEffect(() => {
+        const outsideClosePopup = (event) => {
+            if (open && !sortRef.current.contains(event.target)) {
+                setOpen(false);
+            }
+            console.log('дурилка');
+        };
+
+        document.addEventListener("click", outsideClosePopup);
+
+        return () => {
+            document.removeEventListener("click", outsideClosePopup);
+        }
+    }, [open])
+
     return (
-        <div className="sort">
+        <div ref={sortRef} className="sort">
             <div className="sort__label">
                 <svg
                     width="10"
