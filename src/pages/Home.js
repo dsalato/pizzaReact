@@ -7,7 +7,7 @@ import Pagination from "../components/Pagination";
 import {SearchContext} from "../App";
 import {useDispatch, useSelector} from "react-redux";
 import {setCategoryId, setCurrentPage, setFilters} from '../redux/slices/filterStore'
-import axios from "axios";
+import {fetchPizzas} from '../redux/slices/pizzasSlice'
 import qs from "qs";
 import {useNavigate} from "react-router-dom";
 
@@ -19,10 +19,10 @@ const Home = () => {
 
 
     const {categoryId, sortId, currentPage} = useSelector((state) => state.filter);
+    const {pizzas, status} = useSelector((state) => state.pizzas);
+
     const {searchValue} = useContext(SearchContext);
 
-    const [pizzas, setPizzas] = useState([]);
-    const [isLoading, setIsLoading] = useState(true);
 
     const changeCategoryId = (id) => {
         dispatch(setCategoryId(id));
@@ -31,14 +31,8 @@ const Home = () => {
         dispatch(setCurrentPage(number));
     }
 
-    const fetchPizzas = () => {
-        setIsLoading(true)
-
-        axios.get(`https://651d472344e393af2d597c5b.mockapi.io/pizzas?page=${currentPage}&limit=4&${categoryId > 0 ? `category=${categoryId}` : ''}&sortBy=${sortId.sort}&order=desc${searchValue !== '' ? `&search=${searchValue}` : ''}`
-        ).then(response => {
-            setPizzas(response.data)
-            setIsLoading(false)
-        })
+    const getPizzas = async () => {
+        dispatch(fetchPizzas({currentPage, categoryId, sortId, searchValue}));
     };
 
     React.useEffect(() => {
@@ -61,7 +55,7 @@ const Home = () => {
         window.scrollTo(0, 0);
 
         if (!isSearch.current) {
-            fetchPizzas();
+            getPizzas();
         }
 
         isSearch.current = false;
@@ -87,13 +81,18 @@ const Home = () => {
                 <Sort/>
             </div>
             <h2 className="content__title">Все пиццы</h2>
-            <div className="content__items">
-                {
-                    isLoading
-                        ? [...new Array(6)].map((_, index) => <Skeleton key={index}/>)
-                        : pizzas.map((el) => (<Index key={el.id} {...el} />))
-                }
-            </div>
+            {
+                status === 'error' ? <div className='content__error-info'>
+                    <h2>Произошла ошибка</h2>
+                    <p>Не получилось получить пиццы(</p>
+                </div> : <div className="content__items">
+                    {
+                        status === 'loading'
+                            ? [...new Array(6)].map((_, index) => <Skeleton key={index}/>)
+                            : pizzas.map((el) => (<Index key={el.id} {...el} />))
+                    }
+                </div>
+            }
             <Pagination currentPage={currentPage} onChangePage={onChangePage}/>
         </>)
 
