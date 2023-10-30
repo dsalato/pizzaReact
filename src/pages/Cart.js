@@ -1,12 +1,12 @@
 import {Link} from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
 import CartPizza from "../components/CartPizza";
-import {clearPizzas, remotePizzas} from "../redux/slices/cartSlice";
+import {clearPizzas, selectCart} from "../redux/slices/cartSlice";
 import CartEmpty from "../components/CartEmpty";
 
 const Cart = () => {
     const dispatch = useDispatch();
-    const {totalPrice, pizzas} = useSelector((state) => state.cart);
+    const {totalPrice, pizzas} = useSelector(selectCart);
 
     const countPizzas = pizzas.reduce((count, obj) => {
         return count + obj.count;
@@ -55,7 +55,7 @@ const Cart = () => {
             <div className="cart__bottom-buttons">
                 <Link to="/" className="button button--outline button--add go-back-btn">
                     <svg width="8" height="14" viewBox="0 0 8 14" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M7 13L1 6.93015L6.86175 1" stroke="#D3D3D3" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+                        <path d="M7 13L1 6.93015L6.86175 1" stroke="#D3D3D3" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"></path>
                     </svg>
 
                     <span>Вернуться назад</span>

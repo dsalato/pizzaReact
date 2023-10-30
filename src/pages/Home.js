@@ -18,10 +18,8 @@ const Home = () => {
     const isMounted = React.useRef(false);
 
 
-    const {categoryId, sortId, currentPage} = useSelector((state) => state.filter);
+    const {categoryId, sortId, currentPage, searchValue} = useSelector((state) => state.filter);
     const {pizzas, status} = useSelector((state) => state.pizzas);
-
-    const {searchValue} = useContext(SearchContext);
 
 
     const changeCategoryId = (id) => {
