@@ -27,7 +27,6 @@ const pizzasSlice = createSlice({
         [fetchPizzas.pending]: (state) => {
             state.status = 'loading';
             state.pizzas = [];
-
         },
         [fetchPizzas.fulfilled]: (state, action) => {
             state.pizzas = action.payload;

@@ -2,14 +2,13 @@ import Categories from "../components/categories";
 import Sort, {list} from "../components/sort";
 import Skeleton from "../components/PizzaBlock/skeleton";
 import Index from "../components/PizzaBlock";
-import React, {useContext, useState} from "react";
+import React from "react";
 import Pagination from "../components/Pagination";
-import {SearchContext} from "../App";
 import {useDispatch, useSelector} from "react-redux";
 import {setCategoryId, setCurrentPage, setFilters} from '../redux/slices/filterStore'
 import {fetchPizzas} from '../redux/slices/pizzasSlice'
 import qs from "qs";
-import {useNavigate} from "react-router-dom";
+import {Link, useNavigate} from "react-router-dom";
 
 const Home = () => {
     const navigate = useNavigate();
