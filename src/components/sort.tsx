@@ -1,30 +1,41 @@
 import React, {useState} from 'react';
 import {useDispatch, useSelector} from "react-redux";
 import {setSortId} from "../redux/slices/filterStore";
+import {RootState} from "../redux/store";
 
-export const list = [
+
+type SortListItem = {
+    name: string,
+    sort: "rating" | "price" | "title"
+}
+
+type PopupClick = React.MouseEvent<HTMLBodyElement> & {
+    path: Node[];
+}
+
+export const list: SortListItem[] = [
     {name: 'популярности', sort: 'rating'},
     {name: 'цене', sort: 'price'},
     {name: 'алфавиту', sort: 'title'},
 ]
 
-export const Sort = React.memo(({value}) => {
+export const Sort: React.FC = React.memo(({value}) => {
     const dispatch = useDispatch()
-    const sortId = useSelector(state => state.filter.sortId);
+    const sortId = useSelector<RootState>(state => state.filter.sortId);
     const [open, setOpen] = useState(false);
-    const sortRef = React.useRef();
+    const sortRef = React.useRef(null);
 
-    const closeListSort = (key) => {
+    const closeListSort = (key: SortListItem) => {
         dispatch(setSortId(key));
         setOpen(false);
     }
 
     React.useEffect(() => {
-        const outsideClosePopup = (event) => {
-            if (open && !sortRef.current.contains(event.target)) {
+        const outsideClosePopup = (event: PopupClick) => {
+            if (open && sortRef.current && !sortRef.current.contains(event.target)) {
                 setOpen(false);
             }
-            console.log('дурилка');
+
         };
 
         document.addEventListener("click", outsideClosePopup);

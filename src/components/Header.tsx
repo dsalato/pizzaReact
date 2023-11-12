@@ -3,11 +3,11 @@ import {Link, useLocation} from "react-router-dom";
 import Search from "./Search";
 import {useSelector} from "react-redux";
 import {selectCart} from "../redux/slices/cartSlice";
-const Header = () => {
+const Header:React.FC = () => {
     const {totalPrice, pizzas} = useSelector(selectCart)
     const location = useLocation();
 
-    const countPizzas = pizzas.reduce((count, obj) => {
+    const countPizzas = pizzas.reduce((count: number, obj: any) => {
         return count + obj.count;
     }, 0);
 

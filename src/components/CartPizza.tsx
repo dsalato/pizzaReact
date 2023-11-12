@@ -1,8 +1,18 @@
 import React from "react";
-import {useDispatch, useSelector} from "react-redux";
+import {useDispatch} from "react-redux";
 import {addPizzas, minusPizza, remotePizzas} from "../redux/slices/cartSlice";
 
-const CartPizza = ({id, title, testo, size, price, count, imageUrl}) => {
+type CartItemProps = {
+    id: string;
+    title: string;
+    testo: string;
+    size: number;
+    price: number;
+    count: number;
+    imageUrl: string;
+};
+
+const CartPizza: React.FC<CartItemProps> = ({id, title, testo, size, price, count, imageUrl}) => {
     const dispatch = useDispatch();
     // const pizzas = useSelector((state) => state.cart.pizzas);
 

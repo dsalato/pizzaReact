@@ -4,32 +4,33 @@ import Skeleton from "../components/PizzaBlock/skeleton";
 import Index from "../components/PizzaBlock";
 import React from "react";
 import Pagination from "../components/Pagination";
-import {useDispatch, useSelector} from "react-redux";
+import {useSelector} from "react-redux";
 import {setCategoryId, setCurrentPage, setFilters} from '../redux/slices/filterStore'
 import {fetchPizzas} from '../redux/slices/pizzasSlice'
 import qs from "qs";
-import {Link, useNavigate} from "react-router-dom";
+import {useNavigate} from "react-router-dom";
+import {RootState, useAppDispatch} from "../redux/store";
 
-const Home = () => {
+const Home: React.FC = () => {
     const navigate = useNavigate();
-    const dispatch = useDispatch();
+    const dispatch = useAppDispatch();
     const isSearch = React.useRef(false);
     const isMounted = React.useRef(false);
 
 
-    const {categoryId, sortId, currentPage, searchValue} = useSelector((state) => state.filter);
-    const {pizzas, status} = useSelector((state) => state.pizzas);
+    const {categoryId, sortId, currentPage, searchValue} = useSelector((state: RootState) => state.filter);
+    const {pizzas, status} = useSelector((state: RootState) => state.pizzas);
 
 
-    const changeCategoryId = (id) => {
+    const changeCategoryId = (id:number) => {
         dispatch(setCategoryId(id));
     }
-    const onChangePage = (number) => {
+    const onChangePage = (number:number) => {
         dispatch(setCurrentPage(number));
     }
 
     const getPizzas = async () => {
-        dispatch(fetchPizzas({currentPage, categoryId, sortId, searchValue}));
+        dispatch(fetchPizzas({currentPage: String(currentPage), categoryId, sortId, searchValue}));
     };
 
     React.useEffect(() => {
